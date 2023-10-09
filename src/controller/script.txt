@@ -1,0 +1,20 @@
+function Login() {
+    const footer = document.getElementById("cssTable");
+    if (!footer) return;
+    const campusSelection = window.document.querySelector("#ctl00_mainContent_ddlCampus");
+    if (!campusSelection) return;
+    campusSelection.value = "3";
+    footer.insertAdjacentHTML(
+      "beforeend",
+      '<h5 id="pointer_button" style="text-align: center;display:none; font-weight: bold;" onclick=" \n \
+        const loginButton = document.querySelector(\'#ctl00_mainContent_btnLogin\'); \n \
+        if (loginButton) \n \
+          loginButton.click(); \n \
+      ">Tool By: HV</h5>'
+    );
+    const loginButton = document.querySelector("#pointer_button");
+    if (!loginButton) return;
+    loginButton.click();
+  }
+  
+  Login() ;

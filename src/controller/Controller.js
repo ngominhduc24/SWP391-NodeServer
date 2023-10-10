@@ -1,18 +1,9 @@
+const myFunction = require('./puppeteer');
+
 let getData = async (req, res) => {
-  const data = [
-    {
-      name: "Nguyen Van A",
-      age: 20,
-    },
-    {
-      name: "Nguyen Van B",
-      age: 21,
-    },
-    {
-      name: "Nguyen Van C",
-      age: 22,
-    },
-  ];
+  const hrefCrawl = 'https://fap.fpt.edu.vn/Course/Groups.aspx?group=38482';
+  let data = await myFunction(hrefCrawl);
+
   return res.status(200).json(data);
 };
 

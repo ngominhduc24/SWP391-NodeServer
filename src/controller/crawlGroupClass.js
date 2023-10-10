@@ -4,6 +4,8 @@ puppeteer.use(StealthPlugin());
 const userDataDir = 'C:\\Users\\md8qt\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 1';
 
 (async () => {
+    // noti
+    console.log('Crawling group class....');
 
     // Mở trình duyệt mới và tới trang của kenh14
     const browser = await puppeteer.launch({
@@ -13,7 +15,7 @@ const userDataDir = 'C:\\Users\\md8qt\\AppData\\Local\\Google\\Chrome\\User Data
     });
     const page = await browser.newPage();
     await page.goto('https://fap.fpt.edu.vn/Default.aspx');
-
+    console.log('15% [====               ]');
     // Chạy đoạn JavaScript trong hàm này, đưa kết quả vào biến article
     const articles = await page.evaluate(() => {
         function Login() {
@@ -36,6 +38,8 @@ const userDataDir = 'C:\\Users\\md8qt\\AppData\\Local\\Google\\Chrome\\User Data
         }
 
         Login();
+        console.clear();
+        console.log('40% [==========          ]');
 
         function gacGetLoginElements() {
             return document.querySelectorAll('[data-identifier]');
@@ -59,11 +63,17 @@ const userDataDir = 'C:\\Users\\md8qt\\AppData\\Local\\Google\\Chrome\\User Data
 
     });
 
-
+    console.clear();
+    console.log('50% [===========         ]');
     await new Promise(r => setTimeout(r, 1000));
+    console.clear();
+    console.log('60% [==================  ]');
+
     const page2 = await browser.newPage();
     await page2.goto('https://fap.fpt.edu.vn/Course/Groups.aspx?group=38482');
     await new Promise(r => setTimeout(r, 1000));
+    console.clear();
+    console.log('76% [==================== ]');
 
     let data = await page2.evaluate(() => {
         let data = [];
@@ -77,7 +87,8 @@ const userDataDir = 'C:\\Users\\md8qt\\AppData\\Local\\Google\\Chrome\\User Data
         });
         return data;
     });
-
+    console.clear();
+    console.log('80% [=====================]')
 
     let dataJson = JSON.stringify(data);
     let fs = require('fs');
@@ -85,6 +96,8 @@ const userDataDir = 'C:\\Users\\md8qt\\AppData\\Local\\Google\\Chrome\\User Data
         if (err) {
             console.error('Error crawling data fap:', err);
         } else {
+            console.clear();
+            console.log('100% [====================]');
             console.log('Finished crawling group class');
         }
     });

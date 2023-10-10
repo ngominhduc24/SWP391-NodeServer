@@ -7,7 +7,7 @@ const userDataDir = 'C:\\Users\\md8qt\\AppData\\Local\\Google\\Chrome\\User Data
 
     // Mở trình duyệt mới và tới trang của kenh14
     const browser = await puppeteer.launch({
-        headless: false,
+        headless: true,
         executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
         userDataDir: 'C:\\Users\\md8qt\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 1\\Cache\\Cache_Data',
     });
@@ -62,24 +62,31 @@ const userDataDir = 'C:\\Users\\md8qt\\AppData\\Local\\Google\\Chrome\\User Data
 
     await new Promise(r => setTimeout(r, 1000));
     const page2 = await browser.newPage();
-    await page2.goto('https://fap.fpt.edu.vn/Course/Groups.aspx?group=38448');
+    await page2.goto('https://fap.fpt.edu.vn/Course/Groups.aspx?group=38482');
+    await new Promise(r => setTimeout(r, 1000));
 
     let data = await page2.evaluate(() => {
-
-        let table = document.getElementById('id');
-        let rows = table.querySelectorAll("tr");
         let data = [];
-        for (let i = 0; i < rows.length; i++) {
-            let row = [],
-                cols = rows[i].querySelectorAll("td, th");
-            for (let j = 0; j < cols.length; j++) {
-                row.push(cols[j].innerText);
-            }
-            data.push(row);
-        }
+        let table = document.getElementById('ctl00_mainContent_divGroup');
+        let rows = table.querySelectorAll("a");
+        rows.forEach((row) => {
+            data.push({
+                link: row.href,
+                name: row.innerText,
+            });
+        });
         return data;
     });
 
-    console.log(data);
+
+    let dataJson = JSON.stringify(data);
+    let fs = require('fs');
+    fs.writeFile('database.json', dataJson, (err) => {
+        if (err) {
+            console.error('Error crawling data fap:', err);
+        } else {
+            console.log('Finished crawling group class');
+        }
+    });
     await browser.close();
 })();

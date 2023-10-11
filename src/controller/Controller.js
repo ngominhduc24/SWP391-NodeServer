@@ -33,14 +33,26 @@ let getData = async (req, res) => {
     if (hrefCrawl == '') {
       return res.status(400).json({
         status: 400,
-        message: 'Bad request',
+        message: 'Class not found',
       });
     }
 
 
     myFunction(hrefCrawl)
-      .then(data => {
-        return res.status(200).json(data);
+      .then(dataTemp => {
+        let index;
+        let data = dataTemp; // Initialize 'data' with the data you received
+        for (let i = 0; i < data[0].length; i++) {
+          if (data[0][i] === 'CODE') {
+            index = i;
+          }
+        }
+        const extractedData = [];
+        console.log(index);
+        for (let i = 1; i < data.length; i++) {
+          extractedData.push(data[i][index - 1]);
+        }
+        return res.status(200).json(extractedData);
       })
       .catch(error => {
         console.log(error);

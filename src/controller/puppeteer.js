@@ -6,7 +6,7 @@ const userDataDir = 'C:\\Users\\md8qt\\AppData\\Local\\Google\\Chrome\\User Data
 const crawlListStudent = async (hrefGroup) => {
     try {
         const browser = await puppeteer.launch({
-            headless: false,
+            headless: true,
             executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
             userDataDir: 'C:\\Users\\md8qt\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 1\\Cache\\Cache_Data',
         });

@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import initAPIRoutes from "./src/router/api.js";
+import initChatAPIRoutes from "./src/router/chatApi.js";
 
 import http from 'http';
 import { Server } from 'socket.io';
@@ -27,6 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 initAPIRoutes(app);
+initChatAPIRoutes(app);
 
 app.get('/', (req, res) => {
   res.send('Hello World!')

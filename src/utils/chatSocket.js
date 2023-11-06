@@ -16,8 +16,23 @@ module.exports = function (io) {
             //decode data
             let decoded = decode(data);
             
-            if (decoded.classId)
+            if (decoded)
                 socket.join(decoded.classId);
+        })
+
+        socket.on('listen-class', data => {
+            console.log(data)
+
+            //decode data
+            let decoded = decode(data);
+            let listClassId = decoded.listClassId;
+
+            if(!listClassId) return;
+
+            listClassId.array.forEach(classId => {
+                socket.join(classId);
+            });
+
         })
 
         //user send message

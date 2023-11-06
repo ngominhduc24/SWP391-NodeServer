@@ -10,8 +10,17 @@ const initChatAPIRoutes = (app) => {
         let decoded = jwt.decode(req.params.token)
 
         if (decoded) {
-            
-            res.send(await db.findOne('chat_class', {classId: parseInt(decoded.classId, 10)}));
+            let classId = parseInt(decoded.classId, 10);
+
+            //check db
+            if(await db.findOne('chat_class', {classId}) == null)
+                db.insertOne('chat_class', {
+                    classId: classId,
+                    message: [],
+                })
+
+            // response chat db
+            res.send(await db.findOne('chat_class', {classId}));
 
         } else res.status(403).send('error');
 

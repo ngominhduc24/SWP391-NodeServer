@@ -1,5 +1,5 @@
 const { decode } = require('./jwt');
-const dbConext = require('./dbContext');
+const dbContext = require('./dbContext');
 
 function getDatetime() {
     const now = new Date();
@@ -36,12 +36,13 @@ module.exports = function (io) {
         })
 
         //user send message
-        socket.on('send-chat-message', data => {
+        socket.on('send-chat-message', async data => {
             //data : { username, message , classId}
 
             let decoded = decode(data);
             //check token
             if (decoded == null) return;
+            console.log(decoded);
 
             let messageData = {
                 username: decoded.username,
@@ -53,7 +54,7 @@ module.exports = function (io) {
             socket.to(decoded.classId).emit('receive-message', messageData);
 
             //save to db
-            dbConext.updateOnePushMode('chat_class', {classId : decoded.classId}, {message: messageData});
+            dbContext.updateOnePushMode('chat_class', {classId : decoded.classId}, {message: messageData});
         })
     });
 };

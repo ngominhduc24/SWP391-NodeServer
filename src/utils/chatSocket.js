@@ -21,7 +21,6 @@ module.exports = function (io) {
         })
 
         socket.on('listen-class', data => {
-            console.log(data)
 
             //decode data
             let decoded = decode(data);
@@ -35,8 +34,37 @@ module.exports = function (io) {
 
         })
 
+        socket.on('user-connect', data => {
+
+            //decode data
+            let decoded = decode(data);
+            let userId = decoded.userId;
+
+            socket.join('user:' + userId);
+
+        })
+
+        socket.on('noti-evaluated', data => {
+
+            //decode data
+            let decoded = data;
+            let listUserId = data.listUserId.split(',');
+
+            let emitData = {
+                message: decoded.message,
+                createdBy: decoded.createdBy,
+                href: decoded.href,
+            }
+
+            console.log(emitData)
+            //send to user
+            for(let userId of listUserId)
+                socket.to('user:' + userId).emit('noti-evaluated', emitData);
+
+        })
+
         //user send message
-        socket.on('send-chat-message', async data => {
+        socket.on('send-chat-message', data => {
             //data : { username, message , classId}
 
             let decoded = decode(data);
